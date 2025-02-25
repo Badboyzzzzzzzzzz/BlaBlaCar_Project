@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/locationPicker_screen.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_screen.dart';
+import 'package:week_3_blabla_project/screens/ride_pref/widgets/spinner_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
@@ -38,7 +39,6 @@ class _RidePrefFormState extends State<RidePrefForm> {
   }
 
   /// this function use for validate the rideformpref to make sure user
-
   void _handleSubmit() {
     if (_isFormValid()) {
       Navigator.of(context).push(
@@ -68,16 +68,34 @@ class _RidePrefFormState extends State<RidePrefForm> {
     });
   }
 
+  void _handleSeatsSelection() async {
+    final int? selectedSeats = await Navigator.of(context).push(
+      AnimationUtils.createBottomToTopRoute(
+        SpinnerScreen(),
+      ),
+    );
+    if (selectedSeats != null) {
+      setState(() {
+        requestedSeats = selectedSeats; // udpate the requested seats
+      });
+    }
+  }
+
   // ----------------------------------
   // Initialize the Form attributes
   // ----------------------------------
   @override
   void initState() {
     super.initState();
-    departure = widget.initRidePref?.departure;
-    arrival = widget.initRidePref?.arrival;
-    departureDate = widget.initRidePref?.departureDate ?? DateTime.now();
-    requestedSeats = widget.initRidePref?.requestedSeats ?? 1;
+    if (widget.initRidePref != null) {
+      departure = widget.initRidePref!.departure;
+      arrival = widget.initRidePref!.arrival;
+      departureDate = widget.initRidePref!.departureDate;
+      requestedSeats = widget.initRidePref!.requestedSeats;
+    } else {
+      departureDate = DateTime.now();
+      requestedSeats = 1;
+    }
   }
 
   // ----------------------------------
@@ -114,7 +132,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
                 );
                 if (selectedLocation != null) {
                   setState(() {
-                    departure = selectedLocation;
+                    departure =
+                        selectedLocation; // Update state with selected location
                   });
                 }
               },
@@ -156,7 +175,8 @@ class _RidePrefFormState extends State<RidePrefForm> {
                   );
                   if (pickedDate != null && pickedDate != departureDate) {
                     setState(() {
-                      departureDate = pickedDate;
+                      departureDate =
+                          pickedDate; // Update state with selected date
                     });
                   }
                 }),
@@ -165,6 +185,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
               seats: requestedSeats,
               onTap: () {
                 // Implement your seat selection logic here
+                _handleSeatsSelection(); // Call the seat selection function
               },
             ),
             const SizedBox(height: BlaSpacings.s),
@@ -232,7 +253,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
 
   Widget _rideSeatsInput({required int seats, void Function()? onTap}) {
     return InkWell(
-      onTap: onTap,
+      onTap: _handleSeatsSelection,
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 12.0),
         child: Row(
