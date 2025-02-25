@@ -23,10 +23,8 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
   @override
   void initState() {
     super.initState();
-
     /// If an initial query is provided, pre-fill the search bar with it
     _searchController.text = widget.initialQuery ?? '';
-
     /// Add listener to the search controller to trigger the search when the query changes
     _searchController.addListener(_onSearchChanged);
 

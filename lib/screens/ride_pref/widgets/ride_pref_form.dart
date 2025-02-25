@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/locationPicker_screen.dart';
+import 'package:week_3_blabla_project/screens/ride_pref/widgets/ride_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
@@ -37,14 +38,25 @@ class _RidePrefFormState extends State<RidePrefForm> {
   }
 
   /// this function use for validate the rideformpref to make sure user
+
   void _handleSubmit() {
     if (_isFormValid()) {
-      widget.onSubmit(RidePref(
-        departure: departure!,
-        arrival: arrival!,
-        departureDate: departureDate,
-        requestedSeats: requestedSeats,
-      ));
+      Navigator.of(context).push(
+        AnimationUtils.createBottomToTopRoute(
+          RideSearchResultsScreen(
+            departure: departure!.name,
+            arrival: arrival!.name,
+            date: departureDate,
+            seats: requestedSeats,
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please select departure and arrival locations'),
+        ),
+      );
     }
   }
 
@@ -71,7 +83,6 @@ class _RidePrefFormState extends State<RidePrefForm> {
   // ----------------------------------
   // Handle events
   // ----------------------------------
-
   // ----------------------------------
   // Build the widgets
   // ----------------------------------
@@ -108,8 +119,11 @@ class _RidePrefFormState extends State<RidePrefForm> {
                 }
               },
               endIcon: IconButton(
-                  onPressed: _handleSwitchLocation,
-                  icon: Icon(Icons.swap_vert)),
+                onPressed: _handleSwitchLocation,
+                icon: Icon(Icons.swap_vert),
+                style: ButtonStyle(
+                    iconColor: WidgetStateProperty.all(BlaColors.primary)),
+              ),
             ),
             const BlaDivider(),
             _rideLocationInput(
