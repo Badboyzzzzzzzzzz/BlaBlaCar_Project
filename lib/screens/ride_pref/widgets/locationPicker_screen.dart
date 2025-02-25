@@ -2,38 +2,35 @@ import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/dummy_data/dummy_data.dart';
 import 'package:week_3_blabla_project/model/ride/locations.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
+import 'package:week_3_blabla_project/widgets/display/bla_divider.dart';
 
 class LocationPickerScreen extends StatefulWidget {
   final String? initialQuery;
-
   // Constructor accepts an optional initial query to pre-populate the search field
   const LocationPickerScreen({
     super.key,
     this.initialQuery,
   });
-
   @override
   State<LocationPickerScreen> createState() => _LocationPickerScreenState();
 }
 
 class _LocationPickerScreenState extends State<LocationPickerScreen> {
   final TextEditingController _searchController = TextEditingController();
-  List<Location> _filteredLocations =
-      []; // Stores the filtered list of locations
+  List<Location> _filteredLocations = [];
   bool _isSearching =
       false; // Flag to indicate whether the search is in progress
-
   @override
   void initState() {
     super.initState();
 
-    // If an initial query is provided, pre-fill the search bar with it
+    /// If an initial query is provided, pre-fill the search bar with it
     _searchController.text = widget.initialQuery ?? '';
 
-    // Add listener to the search controller to trigger the search when the query changes
+    /// Add listener to the search controller to trigger the search when the query changes
     _searchController.addListener(_onSearchChanged);
 
-    // Trigger search if initialQuery is provided
+    /// Trigger search if initialQuery is provided
     if (widget.initialQuery?.isNotEmpty ?? false) {
       _onSearchChanged();
     }
@@ -44,7 +41,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
     final query = _searchController.text.toLowerCase();
     setState(() {
       _isSearching = true; // Start the search process (show loading indicator)
-
       // Filter locations based on the query (search in location name or country name)
       _filteredLocations = fakeLocations.where((location) {
         return location.name.toLowerCase().contains(
@@ -121,7 +117,6 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
               : Expanded(
                   child: _filteredLocations.isEmpty
                       ? Center(
-                          // Show a message when no locations match the search query
                           child: Padding(
                             padding: const EdgeInsets.all(16.0),
                             child: Text(
@@ -133,8 +128,11 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                             ),
                           ),
                         )
-                      : ListView.builder(
+                      : ListView.separated(
                           itemCount: _filteredLocations.length,
+                          separatorBuilder: (context, index) {
+                            return BlaDivider(); // Insert BlaDivider between list items
+                          },
                           itemBuilder: (context, index) {
                             final location = _filteredLocations[index];
                             return ListTile(
@@ -157,8 +155,10 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                                       .neutralDark, // Lighter color for the subtitle
                                 ),
                               ),
-                              trailing: Icon(Icons.chevron_right,
-                                  color: BlaColors.neutralDark), // Right chevron icon for navigation
+                              trailing: Icon(
+                                Icons.chevron_right,
+                                color: BlaColors.neutralDark,
+                              ), // Right chevron icon for navigation
                               onTap: () => Navigator.pop(context,
                                   location), // On tap, pass the selected location back
                             );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/screens/ride_pref/widgets/locationPicker_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
+import 'package:week_3_blabla_project/utils/animations_util.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
 import 'package:week_3_blabla_project/widgets/actions/blaButton.dart';
 import 'package:week_3_blabla_project/widgets/display/bla_divider.dart';
@@ -94,10 +95,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
               icon: Icons.radio_button_unchecked,
               onTap: () async {
                 // Implement your location selection logic here
-                final Location? selectedLocation = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LocationPickerScreen()));
+                final Location? selectedLocation =
+                    await Navigator.of(context).push(
+                  AnimationUtils.createBottomToTopRoute(
+                    LocationPickerScreen(),
+                  ),
+                );
                 if (selectedLocation != null) {
                   setState(() {
                     departure = selectedLocation;
@@ -106,7 +109,7 @@ class _RidePrefFormState extends State<RidePrefForm> {
               },
               endIcon: IconButton(
                   onPressed: _handleSwitchLocation,
-                  icon: Icon(Icons.swap_vert),style: ButtonStyle(iconColor: WidgetStateProperty.all(BlaColors.primary)),),
+                  icon: Icon(Icons.swap_vert)),
             ),
             const BlaDivider(),
             _rideLocationInput(
@@ -114,10 +117,12 @@ class _RidePrefFormState extends State<RidePrefForm> {
               icon: Icons.radio_button_unchecked,
               onTap: () async {
                 // Implement your location selection logic here
-                final Location? selectedLocation = await Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => LocationPickerScreen()));
+                final Location? selectedLocation =
+                    await Navigator.of(context).push(
+                  AnimationUtils.createBottomToTopRoute(
+                    LocationPickerScreen(),
+                  ),
+                );
                 if (selectedLocation != null) {
                   setState(() {
                     arrival = selectedLocation;
