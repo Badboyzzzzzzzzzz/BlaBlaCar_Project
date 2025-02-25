@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:week_3_blabla_project/screens/ride_pref/widgets/locationPicker_screen.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
 import 'package:week_3_blabla_project/utils/date_time_util.dart';
 import 'package:week_3_blabla_project/widgets/actions/blaButton.dart';
@@ -91,19 +92,37 @@ class _RidePrefFormState extends State<RidePrefForm> {
             _rideLocationInput(
               label: departure?.name ?? 'Leaving From',
               icon: Icons.radio_button_unchecked,
-              onTap: () {
+              onTap: () async {
                 // Implement your location selection logic here
+                final Location? selectedLocation = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LocationPickerScreen()));
+                if (selectedLocation != null) {
+                  setState(() {
+                    departure = selectedLocation;
+                  });
+                }
               },
               endIcon: IconButton(
                   onPressed: _handleSwitchLocation,
-                  icon: Icon(Icons.swap_vert)),
+                  icon: Icon(Icons.swap_vert),style: ButtonStyle(iconColor: WidgetStateProperty.all(BlaColors.primary)),),
             ),
             const BlaDivider(),
             _rideLocationInput(
-              label: arrival?.name ?? 'Going to',
+              label: arrival?.name ?? 'Going To',
               icon: Icons.radio_button_unchecked,
-              onTap: () {
+              onTap: () async {
                 // Implement your location selection logic here
+                final Location? selectedLocation = await Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => LocationPickerScreen()));
+                if (selectedLocation != null) {
+                  setState(() {
+                    arrival = selectedLocation;
+                  });
+                }
               },
             ),
             const BlaDivider(),
