@@ -153,13 +153,12 @@ class _LocationPickerScreenState extends State<LocationPickerScreen> {
                                     .name, // Display the country of the location
                                 style: TextStyle(
                                   fontSize: 14,
-                                  color: Colors.grey[
-                                      600], // Lighter color for the subtitle
+                                  color: BlaColors
+                                      .neutralDark, // Lighter color for the subtitle
                                 ),
                               ),
                               trailing: Icon(Icons.chevron_right,
-                                  color: Colors
-                                      .grey), // Right chevron icon for navigation
+                                  color: BlaColors.neutralDark), // Right chevron icon for navigation
                               onTap: () => Navigator.pop(context,
                                   location), // On tap, pass the selected location back
                             );
