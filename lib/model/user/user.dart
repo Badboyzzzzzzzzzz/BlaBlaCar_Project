@@ -7,6 +7,7 @@ class User {
   final String email;
   final String phone;
   final String profilePicture;
+
   final bool verifiedProfile;
 
   User(

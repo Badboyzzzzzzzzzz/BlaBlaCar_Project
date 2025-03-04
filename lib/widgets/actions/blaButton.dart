@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:week_3_blabla_project/theme/theme.dart';
-
 class BlaButton extends StatelessWidget {
   final String text;
   final IconData? icon;
