@@ -44,5 +44,5 @@ class RidesService {
 
 class RidesFilter {
   final bool acceptingPets;
-  RidesFilter({required this.acceptingPets});
+  RidesFilter({required this.acceptingPets, });
 }

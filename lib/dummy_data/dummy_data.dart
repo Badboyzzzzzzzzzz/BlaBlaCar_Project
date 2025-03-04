@@ -53,9 +53,14 @@ const List<Location> fakeLocations = [
   Location(name: "Dijon", country: Country.france),
   Location(name: "Le Havre", country: Country.france),
   Location(name: "Brest", country: Country.france),
-
-
- 
+];
+const List<Location> cambodiaLocation = [
+  Location(name: 'Phnom Penh', country: Country.cambodia),
+  Location(name: 'Siem Reap', country: Country.cambodia),
+  Location(name: 'Battambang', country: Country.cambodia),
+  Location(name: 'Sihanoukville', country: Country.cambodia),
+  Location(name: 'Kampong Cham', country: Country.cambodia),
+  Location(name: 'Kampot', country: Country.cambodia),
 ];
 
 // Fake Ride Preferences
@@ -172,7 +177,7 @@ List<Ride> fakeRides = List.generate(50, (index) {
   int availableSeats = random.nextInt(4) + 1; // Between 1 and 4 seats
   double pricePerSeat = (random.nextDouble() * 20 + 5)
       .roundToDouble(); // Price between 5€ and 25€
-bool acceptedPets = random.nextBool();
+  bool acceptedPets = true;
   return Ride(
     departureLocation: departureLocation,
     departureDate: departureTime,
