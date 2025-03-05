@@ -153,6 +153,7 @@ List<User> fakeUsers = [
     profilePicture: "https://randomuser.me/api/portraits/women/6.jpg",
     verifiedProfile: true,
   ),
+  
 ];
 
 // Fake  Rides

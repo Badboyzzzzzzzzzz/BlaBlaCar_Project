@@ -6,24 +6,42 @@ import '../../../theme/theme.dart';
 import '../../ride_pref/widgets/ride_pref_form.dart';
 
 class RidePrefModal extends StatefulWidget {
+  final RidePreference? initialPreference;
+  final Function(RidePreference) onSubmit;
 
   const RidePrefModal({
+    super.key,
+    required this.initialPreference,
+    required this.onSubmit,
 
-    super.key,     
-     // TODO 7 : We should pass the current prefs to this moda; 
+    // TODO 7 : We should pass the current prefs to this moda;
   });
- 
+
   @override
   State<RidePrefModal> createState() => _RidePrefModalState();
 }
 
 class _RidePrefModalState extends State<RidePrefModal> {
+  RidePreference? currentPreference;
+
+  @override
+  void initState() {
+    super.initState();
+    // Set the initial preference when the modal is first opened
+    currentPreference = widget.initialPreference;
+  }
+
   void onBackSelected() {
     Navigator.of(context).pop();
   }
 
   void onSubmit(RidePreference newPreference) {
-      // TODO 9 : We should pop this modal, with the new current preference
+    setState(() {
+      // Update the preference when submitting
+      currentPreference = newPreference;
+    });
+    widget.onSubmit(newPreference);
+    Navigator.of(context).pop();
   }
 
   @override
@@ -51,7 +69,8 @@ class _RidePrefModalState extends State<RidePrefModal> {
               child: Padding(
             padding: const EdgeInsets.all(10),
             child: RidePrefForm(
-              initialPreference: null,        // TODO 7 : The form should be displayed with the modal current prefs
+              initialPreference:
+                  currentPreference, // TODO 7 : The form should be displayed with the modal current prefs
               onSubmit: onSubmit,
             ),
           )),

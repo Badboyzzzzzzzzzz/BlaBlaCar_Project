@@ -20,7 +20,8 @@ import 'ride_pref_input_tile.dart';
 /// The form can be created with an existing RidePref (optional).
 ///
 class RidePrefForm extends StatefulWidget {
-  const RidePrefForm( {super.key, required this.initialPreference, required this.onSubmit});
+  const RidePrefForm(
+      {super.key, required this.initialPreference, required this.onSubmit});
 
   final RidePreference? initialPreference;
   final Function(RidePreference preference) onSubmit;
@@ -42,20 +43,33 @@ class _RidePrefFormState extends State<RidePrefForm> {
   @override
   void initState() {
     super.initState();
- 
-    if (widget.initialPreference != null) {
-      RidePreference current = widget.initialPreference!;
-      departure = current.departure;
-      arrival = current.arrival;
-      departureDate = current.departureDate;
-      requestedSeats = current.requestedSeats;
-    } else {
-      // If no given preferences, we select default ones :
-      departure = null; // User shall select the departure
-      departureDate = DateTime.now(); // Now  by default
-      arrival = null; // User shall select the arrival
-      requestedSeats = 1; // 1 seat book by default
+    _updateFormFromPreference(widget.initialPreference);
+  }
+
+  @override
+  void didUpdateWidget(RidePrefForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // This is crucial - it will update the form when initialPreference changes
+    if (oldWidget.initialPreference != widget.initialPreference) {
+      _updateFormFromPreference(widget.initialPreference);
     }
+  }
+
+  void _updateFormFromPreference(RidePreference? preference) {
+    setState(() {
+      if (preference != null) {
+        departure = preference.departure;
+        arrival = preference.arrival;
+        departureDate = preference.departureDate;
+        requestedSeats = preference.requestedSeats;
+      } else {
+        // Default values if no preference is provided
+        departure = null;
+        arrival = null;
+        departureDate = DateTime.now();
+        requestedSeats = 1;
+      }
+    });
   }
 
   // ----------------------------------
